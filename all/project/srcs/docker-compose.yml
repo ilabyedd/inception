@@ -1,0 +1,53 @@
+services:
+  nginx:
+    container_name: nginx
+    build: ./requirements/nginx/.
+    ports:
+      - "80:80"
+    depends_on:
+      - wordpress
+    volumes:
+      - wordpress:/var/www/html
+    networks:
+      - wp_network
+    restart: always
+
+  mariadb:
+    container_name: mariadb
+    build: ./requirements/mariadb/.
+    volumes:
+      - mariadb:/var/lib/mysql
+    env_file:
+      - .env
+    networks:
+      - wp_network
+    # restart: always
+  wordpress:
+    container_name: wordpress
+    build: ./requirements/wordpress/.
+    depends_on:
+      - mariadb
+    volumes:
+      - wordpress:/var/www/html
+      # - .env
+    env_file:
+      - .env
+    networks:
+      - wp_network
+    restart: always
+
+
+volumes:
+  wordpress:
+  mariadb:
+    driver: local
+    driver_opts:
+      device: ./requirements/mariadb/conf/data
+      o: bind
+      type: none
+
+
+
+networks:
+  wp_network:
+    driver: bridge
