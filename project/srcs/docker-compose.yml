@@ -21,7 +21,7 @@ services:
       - .env
     networks:
       - wp_network
-    # restart: always
+    restart: always
   wordpress:
     container_name: wordpress
     build: ./requirements/wordpress/.
