@@ -10,7 +10,7 @@ COPY ./tools/info.php /var/www/html/
 RUN chmod +x script.sh
 # COPY ./tools/wp-config.php /
 
-COPY .env /var/www/.env
+# COPY .env /var/www/.env
 
 EXPOSE 9000
 
